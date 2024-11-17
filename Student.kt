@@ -1,3 +1,4 @@
+import java.io.File
 class Student(
     surnameValue: String,
     nameValue: String,
@@ -8,26 +9,31 @@ class Student(
     emailValue: String?=null,
     gitHubValue: String?=null): StudentBase(idValue,gitHubValue)
 {
+
     var surname:String=surnameValue
         set(value:String) {
             StudentValidator.validatorSurname(value)
             field = value;
         };
+
     override var id:Int = idValue
         set(value:Int){
             field = value
             setMaxId(value)
         }
+
     var name:String=nameValue
         set(value:String) {
             StudentValidator.validatorName(value)
             field = value;
         };
+
     var patronymic:String=patronymicValue
         set(value:String) {
             StudentValidator.validatorPatronymic(value)
             field = value;
         };
+
     var phoneNumber:String?=phoneNumberValue
         set(value:String?) {
             if(this.checkValueAndPropertyNotNull(value,field)) {
@@ -35,6 +41,7 @@ class Student(
                 field = value;
             }
         };
+
     var telegram:String?=telegramValue
         set(value:String?) {
             if(this.checkValueAndPropertyNotNull(value,field)) {
@@ -42,6 +49,7 @@ class Student(
                 field = value;
             }
         };
+
     var email:String?=emailValue
         set(value:String?) {
             if(this.checkValueAndPropertyNotNull(value,field)) {
@@ -49,6 +57,7 @@ class Student(
                 field = value;
             }
         };
+
     override var gitHub:String?=gitHubValue
         set(value:String?) {
             if(this.checkValueAndPropertyNotNull(value,field)) {
@@ -70,7 +79,15 @@ class Student(
     private fun gitExist() = this.gitHub!=null
 
     private fun contactExist() = this.email!=null || this.telegram!=null || this.phoneNumber!=null
-@@ -105,112 +90,56 @@
+
+    fun validate() = this.gitExist() && this.contactExist()
+
+    fun setContacts(contacts:HashMap<String,String?>){
+        this.phoneNumber = contacts.getOrDefault("phoneNumber",this.phoneNumber);
+        this.gitHub = contacts.getOrDefault("gitHub",this.gitHub);
+        this.email = contacts.getOrDefault("email",this.email)
+        this.telegram = contacts.getOrDefault("telegram",this.telegram);
+    }
 
     private fun checkValueAndPropertyNotNull(value:String?,propertyValue:String?) = value==null && propertyValue!=null || value!=null
     companion object{
@@ -79,6 +96,17 @@ class Student(
         fun parseString(data:String):HashMap<String,Any?> {
             val dataWithoutPrefix = cutStudent(data)
             return StudentBase.parseString(dataWithoutPrefix)
+        }
+        fun readFromTxt(filePath: String):Array<Student> {
+            val file = File(filePath)
+            println(file.exists())
+            if(!file.exists()){
+                throw Exception("Файл не существует!")
+            }
+            else{
+                val lines = file.readLines().map { Student(it) }
+                return lines.toTypedArray()
+            }
         }
     }
 
@@ -117,11 +145,12 @@ class Student(
             this.email!=null -> hashMapOf("email" to this.email as String)
             else -> null
         }
+
     private fun getFormattedContactShort():String{
         val contact = getOneContact()
         return if(contact?.keys!=null)formatPropertyOutput(contact.keys.first() as String,contact.values.first()) else ""
     }
+
     fun getInfo():String{
         return "Initials:${this.getInitials()}, ${formatPropertyOutput("gitHub",this.gitHub)}, Contact:${getFormattedContactShort()}"
     }
-}

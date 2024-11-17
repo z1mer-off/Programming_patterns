@@ -1,6 +1,6 @@
 import kotlin.math.max
-abstract class StudentBase(idValue: Int = autoGenerateId(), open val gitHub: String?=null) {
-    open val id:Int = idValue
+
+abstract class StudentBase(open val id:Int = autoGenerateId(), open val gitHub: String?=null) {
     abstract fun propertiesReturn():Map<String,Any?>
     init {
         StudentValidator.validatorGit(this.gitHub)
@@ -32,6 +32,7 @@ abstract class StudentBase(idValue: Int = autoGenerateId(), open val gitHub: Str
             return hashData
         }
     }
+
     override fun toString(): String {
         var resultString = "("
         for ((key,propValues) in propertiesReturn().entries){
@@ -39,4 +40,3 @@ abstract class StudentBase(idValue: Int = autoGenerateId(), open val gitHub: Str
         }
         return resultString.dropLast(1).plus(")")
     }
-}
