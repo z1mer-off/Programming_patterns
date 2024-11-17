@@ -1,4 +1,5 @@
 import java.io.File
+import java.io.FileWriter
 class Student(
     surnameValue: String,
     nameValue: String,
@@ -107,6 +108,15 @@ class Student(
                 val lines = file.readLines().map { Student(it) }
                 return lines.toTypedArray()
             }
+        }
+        fun writeToTxt(filePath: String,fileName:String,students:Array<Student>) {
+            val file = File(filePath+"/${fileName}")
+            if(!file.exists()){
+                file.createNewFile()
+            }
+            val fileWriter = FileWriter(filePath+"/${fileName}")
+            students.forEach { fileWriter.appendLine(it.toString()) }
+            fileWriter.close()
         }
     }
 

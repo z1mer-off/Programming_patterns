@@ -27,5 +27,5 @@ fun main() {
 //    println(stud.getInfo())
 //    println(StudentShort(4,Student("Lermontov","Mihail","Yurevich", gitHubValue = "famous007", telegramValue = "@poetishka").getInfo()))
 //    println(StudentShort(stud))
-    println(Student.readFromTxt("src/test.txt").forEach { println(it) })
+    Student.writeToTxt("src/","out.txt",Student.readFromTxt("src/test.txt"))
 }
