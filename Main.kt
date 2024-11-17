@@ -1,5 +1,8 @@
 package org.example
+
 import Student
+import StudentShort
+
 fun main() {
 //    val students = mutableListOf<Student>();
 //    students.add(Student("Овдиенко","Артём","Сергеевич"));
@@ -11,13 +14,17 @@ fun main() {
 //    students.forEach { it: Student -> println(it) };
 //    println(Student(hashMapOf(Pair("name","Артём"),Pair("surname","Овдиенко"),Pair("patronymic","Сергеевич"))).validate())
 //    println(Student("Лермонтов","Михаил","Юрьевич", emailValue = "literature@gmail.com", gitHubValue = "famous007").validate());
+
     val stud = Student("Lermontov","Mihail","Yurevich", emailValue = "literature@gmail.com", gitHubValue = "famous007", phoneNumberValue = "+79186916942");
 //    stud.setContacts(hashMapOf(Pair("email","literature@gmail.com"),Pair("telegram","@miha999"),Pair("gitHub",null)));
 //    println(stud)
 //    stud.name = "Мишаня";
-    println(stud)
-    val data = Student.parseString("Student(id:1,surname:Lermontov,name:Mihail,patronymic:Yurevich,phoneNumber:+79186916942,email:literature@gmail.com,telegram:,gitHub:famous007)")
+    val data = Student.parseString("Student(id:4,surname:Lermontov,name:Mihail,patronymic:Yurevich,phoneNumber:+79186916942,email:literature@gmail.com,telegram:,gitHub:famous007)")
     println(data)
+    println(stud)
     println(Student(data))
+    println(Student(Student.parseString("Student(id:1,surname:Ovdienko,name:Artem,patronymic:Sergeevich,phoneNumber:+78005553535,email:romadis@gmail.com,telegram:,gitHub:romadis)")))
     println(stud.getInfo())
+    println(StudentShort(4,stud.getInfo()))
+    println(StudentShort(stud))
 }
